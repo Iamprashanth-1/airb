@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Design by foolishdeveloper.com -->
+    <title>AIRBUS</title>
+    <a href="https://bolt.earth/">
+        <img alt="BOLT Logo" loading="lazy" width="60" height="60" decoding="async" data-nimg="1"  src="https://bolt.earth/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.a330674f.svg&w=96&q=75">
+    </a>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style media="screen">
+      *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #080710;
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1845ad,
+        #23a2f6
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    );
+    right: -30px;
+    bottom: -80px;
+}
+form{
+    height: 520px;
+    width: 400px;
+    background-color: rgba(255,255,255,0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #e5e5e5;
+}
+button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.social{
+  margin-top: 30px;
+  display: flex;
+}
+.social div{
+  background: red;
+  width: 150px;
+  border-radius: 3px;
+  padding: 5px 10px 10px 5px;
+  background-color: rgba(255,255,255,0.27);
+  color: #eaf0fb;
+  text-align: center;
+}
+.social div:hover{
+  background-color: rgba(255,255,255,0.47);
+}
+.social .fb{
+  margin-left: 25px;
+}
+.social i{
+  margin-right: 4px;
+  
+}
+
+
+        .input-icons i {
+            position: absolute;
+            margin:auto;
+            
+        }
+          
+        .input-icons {
+            width: 100%;
+            text-align: right;
+            margin-right: 40px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action="/signup" method="post">
+        <h3>AIRBUS LOGIN</h3>
+        <label for="usertype">USER TYPE</label>
+        <select name="usertype" id="usertype_id" style="background-color: #080710;" onchange="updateSelected('usertype_id')">
+            <option value="Admin">Admin</option>
+            <option value="Aircraft_M">Aircraft Manufacturers</option>
+            <option value="Airline">Airline</option>
+            <option value="Recycle_F">Recycling facilities.</option>
+          </select>
+
+        <label for="username">Email</label>
+        <input type="text" placeholder="Email" id="username" name="email" required>
+
+        <label for="password">Password</label>
+        <input class="input-field" type="password" placeholder="Password" required id="id_password" name="password" >
+        <div class="form-group" style="display: none;" class="form-group" id="channel_div_type">
+            <label for="manuf">Manufacturer</label>
+            <select name="manuf" style="background-color: #080710;" type="text">
+            {% for i in manu %}
+            <option >{{i[0]}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button>Sign Up</button>
+        
+    </form>
+</body>
+
+<script type="text/javascript">
+    function updateSelected(a){
+    if(document.getElementById(a).value=='Aircraft_M')
+    {
+      document.getElementById('channel_div_type').style.display="block";
+    } else {
+      document.getElementById('channel_div_type').style.display="none";
+    }
+    
+
+    
+    
+}
+</script>
+<script type="text/javascript">
+    const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#id_password');
+
+  togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('fa-eye-slash');
+});
+</script>
+<script type="text/javascript">
+
+    window.history.forward();
+    function noBack() {
+        window.history.forward();
+    }
+   
+</script>
+</html>

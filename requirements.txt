@@ -2,3 +2,4 @@ flask
 pandas
 clickhouse-connect
 gunicorn
+plotly

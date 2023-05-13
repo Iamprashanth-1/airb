@@ -246,13 +246,13 @@ th, td {
   
 }
 function getmpotenti(){
-  let mySelect = document.getElementById('mypotern');
-  mySelect.innerHTML = '';
+  let mySelect2 = document.getElementById('mypotern');
+  mySelect2.innerHTML = '';
   for (let i = 0; i < poten.length; i++) {
       let option = document.createElement('option');
       option.value = poten[i];
       option.text = poten[i];
-      mySelect.appendChild(option);
+      mySelect2.appendChild(option);
   }
 }
 </script>
@@ -281,9 +281,9 @@ function getmpotenti(){
     val = document.getElementById(a).value;
     cdr = sed[val];
     poten = [];
-    val = document.getElementById('partnam').value;
+    val6 = document.getElementById('partnam').value;
     val2 = document.getElementById('mySelect').value;
-    poten = pot[val+val2];
+    poten = pot[val6+val2];
 
   
   

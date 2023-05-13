@@ -135,4 +135,4 @@ def catch_all(path):
 
     return {}
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

@@ -9,7 +9,7 @@ app.secret_key = 'AIRBUS'
 @app.before_request
 def make_session_permanent():
     session.permanent = True
-    app.permanent_session_lifetime = datetime.timedelta(minutes=30)
+    app.permanent_session_lifetime = datetime.timedelta(minutes=10)
 @app.route('/')
 def index():
     return render_template('main.html')
@@ -77,6 +77,8 @@ def login():
         return redirect(url_for('login_page',mess='Invalid Credentials'))
 
     return redirect(url_for('login_page'))
+
+@app.route('/qyeried-data',methods=['GET'])
 
 @app.route('/query', methods=['POST'])
 def query():

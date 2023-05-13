@@ -36,6 +36,23 @@
         .nav-pills .nav-link:hover {
           background-color: #e9ecef;
         }
+        .dropdown-content {
+    display: none;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.dropdown.active .dropdown-content {
+    display: block;
+}
       </style>
 
 <!-- Navigation -->
@@ -72,7 +89,7 @@
           <main role="main" class="col-md-10 ml-sm-auto px-4">
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-tab1">
-                <h1>Tab 1 Content</h1>
+                <h3>Simple Metrics</h3>
                 {{plot1|safe}}
                 {{plot2|safe}}
                 {{plot3|safe}}
@@ -82,27 +99,70 @@
             </div>
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-tab2">
                 <h5>Welcome to Aircraft Parts Page Select below to view parts</h5>
-                <label for="part">Select Part:</label>
-                <select id="partnames" name="partnames"  type="text">
-                    {% for i in partnames %}
-                    <option >{{i[0]}}</option>
+                
+                <form method="post" action="/query">
+                <label for="part">Select Part Name:</label>
+                <select id="partnam" name="partnames"  type="text" onchange="updateSelected('partnam')">
+                    {% for i in partnames.keys() %}
+                    <option value='{{i}}'>{{i}}</option>
                     {% endfor %}
                   </select>
+                    <br>
+                  <label> select Material Components</label>
+                  <select  name ='metr' id="mySelect" onfocus="getmater()"></select>
 
-                  <div class="form-group" style="display: none;" class="form-group" id="channel_div_type">
-                    <label for="material composition">Material composition:</label>
+                  <br>
+                  <label> Potential Use Cases</label>
+                  <select name="pote1" id="mypotern" onfocus="getmpotenti()"></select>
+                    <!-- <label for="material composition">Material composition:</label>
                     <select id="materc" name="materc"  type="text">
-                    {% for i in materc %}
-                    <option >{{i[0]}}</option>
+                    {% for i in cdr %}
+                    <option >{{i}}</option>
                     {% endfor %}
-                  </select>
-                </div>
+                  </select> -->
+                  <br>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                  <br>
+                  <br>
+                  {% if totalData %}
+                  <table id="example1" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                        {% for i in totalData[0].keys() %}
+                        
+                        <th>{{i}}</th>
+                        {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in totalData %}
+                    <tr>
+
+
+                      <!-- <td><div class="dropdown">
+                        <button onclick="toggleDropdown()"></button>
+                        <div id="dropdownContent" class="dropdown-content">
+                            <p>Some data here</p>
+                        </div></td> -->
+                        {% for j in i.values() %}
+                        <td>{{j}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                  
+                  </table>
+                  {% endif %}
+                  
+               
+           
 
                 <div class="form-group" style="display: none;" class="form-group" id="channel_div_type">
                     <label for="puc">Potential Use Cases</label>
                     <select id="puc" name="puc"  type="text">
                     {% for i in pucs %}
-                    <option >{{i[0]}}</option>
+                    <option  >{{i}}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -169,27 +229,75 @@
     });
   </script>
 
-  <script>
-
-    
-  </script>
-
 <script>
-    $(document).ready(function(id) {
-      $('#partnames').on('change', function() {
-        var selected_value = $(this).val();
-        $.ajax({
-          type: 'POST',
-          url: '/query',
-          data: {'selected_value': selected_value},
-          success: function(response) {
-            // Handle the response from the server here
-            console.log(response);
-          }
-        });
-      });
-    });
-  </script>
+  function toggleDropdown() {
+    let dropdown = document.querySelector('.dropdown');
+    dropdown.classList.toggle('active');
+}
+  function getmater(){
+  let mySelect = document.getElementById('mySelect');
+  mySelect.innerHTML = '';
+  for (let i = 0; i < cdr.length; i++) {
+      let option = document.createElement('option');
+      option.value = cdr[i];
+      option.text = cdr[i];
+      mySelect.appendChild(option);
+  }
+
+  
+}
+function getmpotenti(){
+  let mySelect = document.getElementById('mypotern');
+  mySelect.innerHTML = '';
+  for (let i = 0; i < poten.length; i++) {
+      let option = document.createElement('option');
+      option.value = poten[i];
+      option.text = poten[i];
+      mySelect.appendChild(option);
+  }
+}
+</script>
+
+<script type="text/javascript">
+//   setInterval(function() {
+//     fetch('/query', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({partn: document.getElementById('partnam').value
+//       , metr: document.getElementById('mySelect').value ,poten: document.getElementById('mypotern').value })  
+//             .then(response => response.json()),
+// })
+//             .then(data => updateDropdown(data));
+//     }, 5000)
+  var cdr1 = '{{ partnames|tojson }}';
+  var sed = JSON.parse(cdr1);
+
+  var pot = JSON.parse('{{ mtrs|tojson }}');
+  let cdr = sed['Avionics'];
+  let poten = pot['AvionicsSteel'];
+  function updateSelected(a){
+    cdr = [];
+    val = document.getElementById(a).value;
+    cdr = sed[val];
+    poten = [];
+    val = document.getElementById('partnam').value;
+    val2 = document.getElementById('mySelect').value;
+    poten = pot[val+val2];
+
+  
+  
+}
+function updateSelected1(){
+    
+
+  
+  
+}
+</script>
+
+
 
 <script> 
 async function generateDynamicHTML() {

@@ -80,12 +80,21 @@ def login():
 
 @app.route('/query', methods=['POST'])
 def query():
-    selected_value = request.form['selected_value']
-    vals = get_query_data(session.get('email'), selected_value)
+    if not session.get('email'):
+        return redirect(url_for('index'))
+    email = session.get('email')
+    # selected_value = request.form['selected_value']
+    partname ,metrc = get_parts(session.get('email'))
+    partn = request.form['partnames']
+    mter = request.form['metr']
+    poten = request.form['pote1']
+    vals = get_query_data(session.get('email'),partn,mter,poten )
     # Perform database query using selected_value
     if vals:
-        results = {'data': vals} 
-    return {'data': []}
+        return render_template('home.html',totalData = vals,
+                               partnames=partname,mtrs =metrc, session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(session.get('email')),plot2=get_plot2(session.get('email')) ,plot3=get_plot3(session.get('email')) ,plot4=get_plot4(session.get('email')))
+    return render_template('home.html',partnames=partname,mtrs =metrc, session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(session.get('email')),plot2=get_plot2(email) ,plot3=get_plot3(email) ,plot4=get_plot4(email))
+
     results = ''
     return jsonify(results)
 
@@ -103,7 +112,10 @@ def home():
     
     if not session.get('email'):
         return redirect(url_for('index'))
-    return render_template('home.html',partnames=get_parts(session.get('email')), session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(),plot2=get_plot2() ,plot3=get_plot3() ,plot4=get_plot4()) 
+    partname ,metrc = get_parts(session.get('email'))
+    # print(metrc)
+    email = session.get('email')
+    return render_template('home.html',partnames=partname,mtrs =metrc, session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(email),plot2=get_plot2(email) ,plot3=get_plot3(email) ,plot4=get_plot4(email)) 
 
 
 @app.route('/<path:path>')
@@ -123,4 +135,4 @@ def catch_all(path):
 
     return {}
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

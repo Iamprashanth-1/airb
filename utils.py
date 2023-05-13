@@ -59,14 +59,28 @@ def insert_data(df):
     return True
 
 
-def get_query_data(email,query):
+def get_query_data(email,query,mat ,pote):
     manuf = get_manufacture_from_email(email)
     sql= f'''
-    SELECT distinct "Material Composition" FROM airb where "Manufacturer"='{manuf}' and "Part Name"='{query}' limit 500
+    SELECT * FROM airb where "Manufacturer"='{manuf}' and "Part Name"='{query}' and "Material Composition" = '{mat}' and "Potential Use Cases" = '{pote}'
+     
+      order by "Age (years)" asc,"Condition" asc  limit 500
     '''
+
     try:
         res = client.query(sql)
-        return res.result_rows
+        cols = res.column_names
+        va = res.result_rows
+        fin = []
+        for i in range(len(va)):
+            vf = {}
+            for j in range(len(cols)):
+                vf[cols[j]] = va[i][j]
+            fin.append(vf)
+        # print(fin)
+
+
+        return fin
     except:
         return None
 
@@ -74,9 +88,28 @@ def get_query_data(email,query):
 def get_parts(email):
     manuf = get_manufacture_from_email(email)
     SQL = f'''
-    SELECT distinct "Part Name" FROM airb where "Manufacturer"='{manuf}' limit 500
+    select distinct "Part Name","Material Composition","Potential Use Cases" from airb where "Manufacturer"='{manuf}' limit 500
     '''
     res = client.query(SQL)
+    we = {}
+    wf= {}
+    for i in res.result_rows:
+        if i[0] in we.keys():
+            we[i[0]].add(i[1])
+        else:
+            we[i[0]] = set([i[1]])
+        
+        if i[0]+i[1] in wf.keys():
+            wf[i[0]+i[1]].add(i[2])
+        else:
+            wf[i[0]+i[1]] = set([i[2]])
+    for i in we.items():
+        we[i[0]] = list(i[1])
+    for i in wf.items():
+        wf[i[0]] = list(i[1])
+    return we,wf
+
+
     return res.result_rows
 
 def get_manufacturer():
@@ -101,9 +134,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 
-def get_plot1():
+def get_plot1(email):
+    manuf = get_manufacture_from_email(email)
 
-    f= client.query('select distinct "Material Composition", count("Material Composition") from dev.airb group by "Material Composition"')
+    f= client.query(f'''select distinct "Material Composition", count("Material Composition") from airb where "Manufacturer"='{manuf}' group by "Material Composition"  ''')
     x_axis = []
     y_axis = []
     for i in f.result_rows:
@@ -122,8 +156,9 @@ def get_plot1():
     )
     return fig._repr_html_()
 
-def get_plot2():
-    f= client.query('select  "Material Composition", count("Recycling Rate (%)") from dev.airb group by "Material Composition"')
+def get_plot2(email):
+    manuf = get_manufacture_from_email(email)
+    f= client.query(f'''select  "Material Composition", count("Recycling Rate (%)") from airb where "Manufacturer"='{manuf}' group by "Material Composition" ''')
     x_axis = []
     y_axis = []
     for i in f.result_rows:
@@ -141,8 +176,9 @@ def get_plot2():
     return fig._repr_html_()
 
 
-def get_plot3():
-    f= client.query('select sum("New Parts Carbon Footprint (kg CO2e)")-sum("Recycled Parts Carbon Footprint (kg CO2e)") , sum("Water Usage - New Parts (liters)")-sum("Water Usage - Recycled Parts (liters)"),sum("Landfill Waste - New Parts (kg)")-sum("Landfill Waste - Recycled Parts (kg)") from dev.airb ')
+def get_plot3(email):
+    manuf = get_manufacture_from_email(email)
+    f= client.query(f'''select sum("New Parts Carbon Footprint (kg CO2e)")-sum("Recycled Parts Carbon Footprint (kg CO2e)") , sum("Water Usage - New Parts (liters)")-sum("Water Usage - Recycled Parts (liters)"),sum("Landfill Waste - New Parts (kg)")-sum("Landfill Waste - Recycled Parts (kg)") from airb where "Manufacturer"='{manuf}' ''')
     vals = f.result_rows[0]
     co2_reduction = vals[0]
     water_reduction = vals[1]
@@ -167,9 +203,10 @@ def get_plot3():
     )
     return fig._repr_html_()
 
-def get_plot4():
+def get_plot4(email):
+    manuf = get_manufacture_from_email(email)
     # grouped_data = df.groupby('Condition')[['Recycling Rate (%)', 'Renewable Material Content (%)', 'Carbon Footprint Saved (kg CO2e)', 'Landfill Waste Saved (kg)']].mean().reset_index()
-    f = client.query('select "Condition", avg("Recycling Rate (%)"), avg("Renewable Material Content (%)"), avg("Carbon Footprint Saved (kg CO2e)"), avg("Landfill Waste Saved (kg)") from dev.airb group by "Condition"')
+    f = client.query(f'''select "Condition", avg("Recycling Rate (%)"), avg("Renewable Material Content (%)"), avg("Carbon Footprint Saved (kg CO2e)"), avg("Landfill Waste Saved (kg)") from airb where "Manufacturer"='{manuf}' group by "Condition"''')
     
     df = pd.DataFrame(f.result_rows, columns=['Condition' ,'Recycling Rate (%)', 'Renewable Material Content (%)', 'Carbon Footprint Saved (kg CO2e)', 'Landfill Waste Saved (kg)'])
     

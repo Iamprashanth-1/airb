@@ -87,7 +87,7 @@ def query():
     partname ,metrc = get_parts(session.get('email'))
     partn = request.form['partnames']
     mter = request.form['metr']
-    poten = request.form['pote1']
+    poten = request.form['pote']
     vals = get_query_data(session.get('email'),partn,mter,poten )
     # Perform database query using selected_value
     if vals:
@@ -135,4 +135,4 @@ def catch_all(path):
 
     return {}
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

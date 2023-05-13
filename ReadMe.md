@@ -18,7 +18,7 @@ Security - Implemented Authentication and Authorization (with encrypted password
 
 ## Proposed Architecture
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Iamprashanth-1/airb/blob/main/images/parch.png)
 
 ## Actual Architecture
 
@@ -26,7 +26,7 @@ Security - Implemented Authentication and Authorization (with encrypted password
 
 ## Deployment Process
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Iamprashanth-1/airb/blob/main/images/cicd.png)
 
 
 

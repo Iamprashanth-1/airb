@@ -113,9 +113,10 @@ def home():
     if not session.get('email'):
         return redirect(url_for('index'))
     partname ,metrc = get_parts(session.get('email'))
+    totalData4 = recycle_data()
     # print(metrc)
     email = session.get('email')
-    return render_template('home.html',partnames=partname,mtrs =metrc, session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(email),plot2=get_plot2(email) ,plot3=get_plot3(email) ,plot4=get_plot4(email)) 
+    return render_template('home.html',partnames=partname,mtrs =metrc,totalData4=totalData4, session=session,tables1=get_table_data(session.get('email')) ,plot1=get_plot1(email),plot2=get_plot2(email) ,plot3=get_plot3(email) ,plot4=get_plot4(email)) 
 
 
 @app.route('/<path:path>')

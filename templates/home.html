@@ -49,6 +49,11 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+.container-c1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .dropdown.active .dropdown-content {
     display: block;
@@ -78,26 +83,33 @@ th, td {
         <div class="row">
           <nav class="col-md-2 d-none d-md-block left-bar">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-tab1" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</a>
-              <a class="nav-link" id="v-pills-tab2" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Buy Components</a>
-              <a class="nav-link" id="v-pills-tab3" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Data Ingestion</a>
-              <a class="nav-link" id="v-pills-tab4" data-toggle="pill" href="#v-pills-dash" role="tab" aria-controls="v-pills-dash" aria-selected="false">Database</a>
+              <a class="nav-link active" id="v-pills-tab1" data-toggle="pill" href="#airb-dash" role="tab" aria-controls="airb-dash" aria-selected="true">Dashboard</a>
+              <a class="nav-link" id="v-pills-tab2" data-toggle="pill" href="#airb-Buy" role="tab" aria-controls="airb-Buy" aria-selected="false">Buy Components</a>
+              <a class="nav-link" id="v-pills-tab2" data-toggle="pill" href="#airb-recycle" role="tab" aria-controls="airb-recycle" aria-selected="false">Recycler Components</a>
+              <a class="nav-link" id="v-pills-tab3" data-toggle="pill" href="#airb-Ingestion" role="tab" aria-controls="airb-Ingestion" aria-selected="false">Data Ingestion</a>
+              <a class="nav-link" id="v-pills-tab4" data-toggle="pill" href="#airb-database" role="tab" aria-controls="airb-database" aria-selected="false">Database</a>
 
             </div>
           </nav>
           <!-- Main Content -->
           <main role="main" class="col-md-10 ml-sm-auto px-4">
             <div class="tab-content" id="v-pills-tabContent">
-              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-tab1">
-                <h3>Simple Metrics</h3>
+              <div class="tab-pane fade show active" id="airb-dash" role="tabpanel" aria-labelledby="v-pills-tab1">
+                <h3>Metrics</h3>
+                <br>
+                <br>
+                <div class="container-c1">
                 {{plot1|safe}}
                 {{plot2|safe}}
+                </div>
+                <div class="container-c1">
                 {{plot3|safe}}
                 {{plot4|safe}}
+                </div>
 
                
             </div>
-              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-tab2">
+              <div class="tab-pane fade" id="airb-Buy" role="tabpanel" aria-labelledby="v-pills-tab2">
                 <h5>Welcome to Aircraft Parts Page Select below to view parts</h5>
                 
                 <form method="post" action="/query">
@@ -169,8 +181,8 @@ th, td {
                 
 
               </div>
-              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-tab3">
-                <h1>Upload Your file </h1>
+              <div class="tab-pane fade" id="airb-Ingestion" role="tabpanel" aria-labelledby="v-pills-tab3">
+                <h1>Upload Your Files </h1>
                 <h5> For Sample file please request Admin</h5>
                 <br>
                 <br>
@@ -180,10 +192,46 @@ th, td {
                     <label for="file-upload">Select a file to upload:</label>
                     <input type="file" id="file-upload" name="file">
                     <br>
-                    <button type="submit">Submit</button>
+                    <button class="btn btn-primary" type="submit">Submit</button>
                   </form>
               </div>
-              <div class="tab-pane fade" id="v-pills-dash" role="tabpanel" aria-labelledby="v-pills-tab4">
+
+              <div class="tab-pane fade" id="airb-recycle" role="tabpanel" aria-labelledby="v-pills-tab3">
+                <h3>Recycleable Parts</h3>
+                
+                  
+                  {% if totalData4 %}
+                  <table id="example1" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                        {% for i in totalData4[0].keys() %}
+                        
+                        <th>{{i}}</th>
+                        {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in totalData4 %}
+                    <tr>
+
+
+                      <!-- <td><div class="dropdown">
+                        <button onclick="toggleDropdown()"></button>
+                        <div id="dropdownContent" class="dropdown-content">
+                            <p>Some data here</p>
+                        </div></td> -->
+                        {% for j in i.values() %}
+                        <td>{{j}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                  
+                  </table>
+                  {% endif %}
+              </div>
+              <div class="tab-pane fade" id="airb-database" role="tabpanel" aria-labelledby="v-pills-tab4">
                 <h1>Database</h1>
                 <table id="myTable" class="table table-striped">
                     <thead>

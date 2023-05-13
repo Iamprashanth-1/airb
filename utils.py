@@ -134,6 +134,21 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 
+def recycle_data():
+    SQL = f'''
+    SELECT * FROM airb where "Remanufacturing Potential (%)" > 90 limit 500
+    '''
+    res = client.query(SQL)
+    cols = res.column_names
+    va = res.result_rows
+    fin = []
+    for i in range(len(va)):
+        vf = {}
+        for j in range(len(cols)):
+            vf[cols[j]] = va[i][j]
+        fin.append(vf)
+    return fin
+
 def get_plot1(email):
     manuf = get_manufacture_from_email(email)
 
@@ -202,6 +217,8 @@ def get_plot3(email):
         width=600
     )
     return fig._repr_html_()
+
+
 
 def get_plot4(email):
     manuf = get_manufacture_from_email(email)

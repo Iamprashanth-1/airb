@@ -64,7 +64,7 @@ def get_query_data(email,query,mat ,pote):
     sql= f'''
     SELECT * FROM airb where "Manufacturer"='{manuf}' and "Part Name"='{query}' and "Material Composition" = '{mat}' and "Potential Use Cases" = '{pote}'
      
-      order by "Age (years)" asc,"Condition" asc  limit 50
+      order by "Age (years)" asc,"Condition" asc  limit 500
     '''
 
     try:
@@ -107,6 +107,7 @@ def get_parts(email):
         we[i[0]] = list(i[1])
     for i in wf.items():
         wf[i[0]] = list(i[1])
+    # print(we,wf)
     return we,wf
 
 
@@ -136,7 +137,7 @@ import plotly.express as px
 
 def recycle_data():
     SQL = f'''
-    SELECT * FROM airb where "Remanufacturing Potential (%)" > 90 limit 500
+    SELECT * FROM airb where "Remanufacturing Potential (%)" > 90 order by "Age (years)" limit 50
     '''
     res = client.query(SQL)
     cols = res.column_names

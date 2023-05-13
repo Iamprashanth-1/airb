@@ -11,7 +11,7 @@ Personas: Aircraft Manufacturer, Airlines, Recycling companies, Admin
 
 
 Scalability - Can be achieved using clickhouse paid version
-Security - Implemented Authentication and Authorization (with encrypted passwords), can also add VPC
+Security - Implemented Authentication and Authorization (with encrypted passwords), can also add VPC Layers
 
 
 

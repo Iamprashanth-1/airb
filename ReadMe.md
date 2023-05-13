@@ -7,11 +7,11 @@ Solution: Created a website where users(Aircraft manufacturers, Airlines, Recycl
 Personas: Aircraft Manufacturer, Airlines, Recycling companies, Admin
 
 Tech stack used:
-FrontEnd - HTML,CSS, JavaScript
-BackEnd - Flask
-Analytics - Python (Pandas, plotly)
-Dashboard - SuperSet
-DataBase - Clickhouse
+FrontEnd - HTML,CSS, JavaScript;
+BackEnd - Flask;
+Analytics - Python (Pandas, plotly);
+Dashboard - SuperSet;
+DataBase - Clickhouse;
 
 Scalability - Can be achieved using clickhouse paid version
 Security - Implemented Authentication and Authorization (with encrypted passwords), can also add VPN

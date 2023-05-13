@@ -21,7 +21,7 @@ Security - Implemented Authentication and Authorization (with encrypted password
 
 ## Actual Architecture
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Iamprashanth-1/airb/blob/main/images/actp.png)
 
 ## Deployment Process
 

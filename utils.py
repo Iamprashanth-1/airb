@@ -64,7 +64,7 @@ def get_query_data(email,query,mat ,pote):
     sql= f'''
     SELECT * FROM airb where "Manufacturer"='{manuf}' and "Part Name"='{query}' and "Material Composition" = '{mat}' and "Potential Use Cases" = '{pote}'
      
-      order by "Age (years)" asc,"Condition" asc  limit 500
+      order by "Age (years)" asc,"Condition" asc  limit 50
     '''
 
     try:

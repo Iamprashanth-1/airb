@@ -137,7 +137,7 @@ import plotly.express as px
 
 def recycle_data():
     SQL = f'''
-    SELECT * FROM airb where "Remanufacturing Potential (%)" > 90 order by "Age (years)" limit 50
+    SELECT * FROM airb where "Remanufacturing Potential (%)" > 90 order by "Age (years)" desc limit 50
     '''
     res = client.query(SQL)
     cols = res.column_names
